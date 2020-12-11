@@ -1,0 +1,8 @@
+.order {
+  background-color: var(--white);
+  color: var(--black);
+  text-decoration: none;
+  outline: none;
+  transition: 0.2s all;
+  display: block;
+}
