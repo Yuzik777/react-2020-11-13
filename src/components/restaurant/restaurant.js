@@ -5,18 +5,24 @@ import Reviews from '../reviews';
 import Banner from '../banner';
 import Rate from '../rate';
 import Tabs from '../tabs';
+import { connect } from 'react-redux';
+import { averageRestaurantRateSelector } from '../../redux/selectors';
 
-const Restaurant = ({ restaurant }) => {
+const Restaurant = ({ restaurant, averageRating }) => {
   const { name, menu, reviews } = restaurant;
 
-  const averageRating = useMemo(() => {
+  //const averageRating = 3;
+  /*useMemo(() => {
     const total = reviews.reduce((acc, { rating }) => acc + rating, 0);
     return Math.round(total / reviews.length);
   }, [reviews]);
-
+*/
   const tabs = [
     { title: 'Menu', content: <Menu menu={menu} /> },
-    { title: 'Reviews', content: <Reviews reviews={reviews} /> },
+    {
+      title: 'Reviews',
+      content: <Reviews reviewIds={reviews} restaurantId={restaurant.id} />,
+    },
   ];
 
   return (
@@ -41,4 +47,6 @@ Restaurant.propTypes = {
   }).isRequired,
 };
 
-export default Restaurant;
+export default connect((state, ownProps) => ({
+  averageRating: averageRestaurantRateSelector(state, ownProps.restaurant),
+}))(Restaurant);
